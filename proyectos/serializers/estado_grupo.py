@@ -6,9 +6,18 @@ class EstadoSerializer(serializers.ModelSerializer):
         model = Estado
         fields = '__all__'
 
+    def validate_estado(self, value):
+        try:
+            estado = Estado.objects.get(id=value)
+        except Estado.DoesNotExist:
+            raise serializers.ValidationError("Estado no existe")
+        return estado.id
+
+        
+
 
 class GrupoSerializer(serializers.ModelSerializer):
-    estado = EstadoSerializer(read_only=True)
+    estado = EstadoSerializer()
 
     class Meta:
         model = Grupo

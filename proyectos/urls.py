@@ -15,7 +15,7 @@ from proyectos.views.equipo_trabajo import *
 from proyectos.views.entrega import *
 from proyectos.views.documento import *
 from proyectos.views.user import *
-from proyectos.views.grupo import  GrupoViewSet, EstadoViewSet
+from proyectos.views.grupo import  GrupoViewSet
 
 
 
@@ -34,11 +34,12 @@ router.register(r'proyecto', ProyectoViewSet)
 router.register(r'equipo_trabajo', Equipo_trabajoViewSet)
 router.register(r'entrega', EntregaViewSet)
 router.register(r'documento', DocumentoViewSet)
-router.register(r'grupo', GrupoViewSet)
-router.register(r'estado', EstadoViewSet)
+router.register(r'grupos', GrupoViewSet)
+
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     path('', include(router.urls)),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]

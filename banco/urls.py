@@ -17,8 +17,8 @@ from django.contrib import admin
 from django.urls import path, include
 from proyectos.views.buscar_proyecto import ProyectoList
 from proyectos.views import registrar
-from proyectos.views.grupo import GrupoList
-from proyectos.views.grupo import GrupoDetail
+from proyectos.views.grupo import GrupoViewSet
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,8 +28,8 @@ urlpatterns = [
     path('api/', include('djoser.urls.authtoken')),
     path('buscar_proyectos/', ProyectoList.as_view()),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('api/grupos/', GrupoList.as_view()),
-    path('api/grupos/<int:pk>/', GrupoDetail.as_view()),
+    path('api/grupos/', GrupoViewSet.as_view({'get': 'list', 'post': 'create'})),
+    
    
 
 ]

@@ -30,6 +30,10 @@ ESTADO_PROYECTO = (
     ('en revision', 'en revision'),
     ('en desarrollo', 'en desarrollo'),
 )
+ESTADO_GRUPO = (
+        ('activo', 'Activo'),
+        ('inactivo', 'Inactivo'),
+    )
 
 class Regional (models.Model):
     nombre          =models.CharField(max_length=300, unique=True)
@@ -86,21 +90,28 @@ class Perfil(models.Model):
     editado         = models.DateTimeField(auto_now = True)
     
     def __str__(self):
-        return self.usuario.username + " " + self.documento 
+        if self.usuario is not None and self.documento is not None:
+            return self.usuario.username + " " + str(self.documento)
+        else:
+            return "Información de usuario incompleta"
+         
 
 class Estado(models.Model):
-    ESTADOS = (
-        ('activo', 'Activo'),
-        ('inactivo', 'Inactivo'),
-    )
+    
+    tipo_estado = models.CharField(max_length=10, choices=ESTADO_GRUPO)
 
-    nombre = models.CharField(max_length=50)
+    def __str__(self):
+        return self.tipo_estado
+
 
 class Grupo(models.Model):
     nombre = models.CharField(max_length=50)
     descripcion = models.TextField()
     miembros = models.ManyToManyField(Perfil, related_name='grupos')
-    estado = models.ForeignKey(Estado, on_delete=models.CASCADE)
+    tipo_estado = models.ForeignKey(Estado, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.nombre} ({str(self.id)})"
     
 class Tipo_Revision(models.Model):
     nombre      = models.CharField(max_length=200, unique = True)
